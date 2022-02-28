@@ -12,6 +12,7 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public Text bestScore;
     
     private bool m_Started = false;
     private int m_Points;
@@ -36,6 +37,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        bestScore.text = BestScore.Instance.GetBestScore();
     }
 
     private void Update()
@@ -56,9 +59,7 @@ public class MainManager : MonoBehaviour
         else if (m_GameOver)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
+                SceneManager.LoadScene(1);
         }
     }
 
@@ -72,5 +73,6 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        BestScore.Instance.submitScore(PlayerInfo.Instance.playerName, m_Points);
     }
 }
